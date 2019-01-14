@@ -4,8 +4,8 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
 		_ExtrudeDistance("Extrude Distance", Float) = 1.0
-		_ExtrudeRegionBottom("Extrude Region Bottom", Float) = 0.0
-		_ExtrudeRegionTop("Extrude Region Top", Float) = 0.0
+		[PerRenderData]_ExtrudeRegionBottom("Extrude Region Bottom", Float) = 0.0
+		[PerRenderData]_ExtrudeRegionTop("Extrude Region Top", Float) = 0.0
     }
 
 	HLSLINCLUDE
