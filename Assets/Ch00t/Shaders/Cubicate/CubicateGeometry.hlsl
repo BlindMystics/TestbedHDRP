@@ -42,7 +42,7 @@ void CubicateGeometry(triangle v2g IN[3], inout TriangleStream<g2f> tristream)
 
 	float hsl = (_SideLength * effectRegionValue) / 2.0;
 
-	float4 cubePosition = float4(facePosition + normal * _DistanceAlongNormal, 0);
+	float4 cubePosition = float4(facePosition + normal * _DistanceAlongNormal * (1 - effectRegionValue), 0);
 
 	float4 v0 = UnityObjectToClipPos(cubePosition + float4(-hsl, hsl, -hsl, 0));
 	float4 v1 = UnityObjectToClipPos(cubePosition + float4(-hsl, hsl, hsl, 0));
