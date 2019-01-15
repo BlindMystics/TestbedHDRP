@@ -24,12 +24,15 @@ public class EffectRegionSweep : MonoBehaviour {
 
     private State currentState;
 
-    private int _ExtrudeRegionBottomId;
-    private int _ExtrudeRegionTop;
+    private int _EffectRegionBottomId;
+    private int _EffectRegionTop;
 
     private void Start() {
         renderer = GetComponent<Renderer>();
         propBlock = new MaterialPropertyBlock();
+
+        _EffectRegionBottomId = Shader.PropertyToID("_EffectRegionBottom");
+        _EffectRegionTop = Shader.PropertyToID("_EffectRegionTop");
 
         currentState = State.TOP_UP;
     }
@@ -67,8 +70,8 @@ public class EffectRegionSweep : MonoBehaviour {
     private void LateUpdate() {
         renderer.GetPropertyBlock(propBlock);
 
-        propBlock.SetFloat("_EffectRegionBottom", botPosition);
-        propBlock.SetFloat("_EffectRegionTop", topPosition);
+        propBlock.SetFloat(_EffectRegionBottomId, botPosition);
+        propBlock.SetFloat(_EffectRegionTop, topPosition);
 
         renderer.SetPropertyBlock(propBlock);
     }
