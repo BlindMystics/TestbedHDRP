@@ -1,4 +1,4 @@
-﻿Shader "Blind Mystics/Cubicate"
+﻿Shader "Blind Mystics/Cubicate (Transparent)"
 {
 	Properties
 	{
@@ -10,7 +10,7 @@
 
 		[PerRenderData]_EffectRegionTop("Effect Region Top", Float) = 1.0
 		[PerRenderData]_EffectRegionBottom("Effect Region Bottom", Float) = 0.0
-	}
+    }
 
 	HLSLINCLUDE
 
@@ -23,12 +23,15 @@
 
 	ENDHLSL
 
-	SubShader
-	{
-		Tags { "RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDUnlitShader" }
+    SubShader
+    {
+        Tags { "RenderPipeline" = "HDRenderPipeline" "RenderType"="HDUnlitShader" "Queue"="Transparent" }
 
-		Pass
-		{
+		ZWrite Off
+		Blend SrcAlpha OneMinusSrcAlpha
+
+        Pass
+        {
 			HLSLPROGRAM
 
 			#include "UnityCG.cginc"
@@ -43,6 +46,6 @@
 			#pragma fragment CubicateFragment
 
 			ENDHLSL
-		}
-	}
+        }
+    }
 }

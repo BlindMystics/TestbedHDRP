@@ -3,6 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+		_Color("Color", color) = (1.0, 1.0, 1.0, 1.0)
 		_ExtrudeDistance("Extrude Distance", Float) = 1.0
 
 		[PerRenderData]_EffectRegionTop("Effect Region Top", Float) = 1.0
@@ -60,6 +61,8 @@
 
 			float _SideLength;
 			float _ExtrudeDistance;
+
+			float4 _Color;
 
 			v2g ExtrudeVertex(appdata v)
 			{
@@ -147,7 +150,7 @@
 					return float4(0, 0, 0, 1);
 				}
 
-				return tex2D(_MainTex, i.uv);
+				return tex2D(_MainTex, i.uv) * _Color;
 			}
 
 			ENDHLSL
