@@ -4,21 +4,21 @@
 float _EffectRegionBottom;
 float _EffectRegionTop;
 
-float EffectRegionValue(float3 position) {
+float EffectRegionValue(float position) {
 	float effectRegionLength = _EffectRegionTop - _EffectRegionBottom;
-	return (position.y - _EffectRegionBottom) / effectRegionLength;
+	return (position - _EffectRegionBottom) / effectRegionLength;
 }
 
-bool WithinEffectRegion(float3 position) {
-	return (position.y > _EffectRegionBottom && position.y < _EffectRegionTop);
+bool WithinEffectRegion(float position) {
+	return (position > _EffectRegionBottom && position < _EffectRegionTop);
 }
 
-bool AboveEffectRegion(float3 position) {
-	return position.y > _EffectRegionTop;
+bool AboveEffectRegion(float position) {
+	return position > _EffectRegionTop;
 }
 
-bool BelowEffectRegion(float3 position) {
-	return position.y < _EffectRegionBottom;
+bool BelowEffectRegion(float position) {
+	return position < _EffectRegionBottom;
 }
 
 #endif

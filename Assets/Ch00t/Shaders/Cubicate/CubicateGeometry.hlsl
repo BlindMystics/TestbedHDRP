@@ -17,11 +17,11 @@ void CubicateGeometry(triangle v2g IN[3], inout TriangleStream<g2f> tristream)
 
 	float3 facePosition = (IN[0].vertex + IN[1].vertex + IN[2].vertex) / 3.0;
 
-	if (BelowEffectRegion(facePosition)) {
+	if (BelowEffectRegion(facePosition.y)) {
 		return;
 	}
 
-	if (!WithinEffectRegion(facePosition)) {
+	if (!WithinEffectRegion(facePosition.y)) {
 		for (int i = 0; i < 3; i++) {
 			o.uv = IN[i].uv;
 			o.vertex = UnityObjectToClipPos(IN[i].vertex);
@@ -33,7 +33,7 @@ void CubicateGeometry(triangle v2g IN[3], inout TriangleStream<g2f> tristream)
 		return;
 	}
 
-	float effectRegionValue = 1 - cos(EffectRegionValue(facePosition) * 1.57079);
+	float effectRegionValue = 1 - cos(EffectRegionValue(facePosition.y) * 1.57079);
 
 	float3 edgeA = IN[1].vertex - IN[0].vertex;
 	float3 edgeB = IN[2].vertex - IN[0].vertex;

@@ -79,7 +79,7 @@
 
 				float3 facePosition = (IN[0].vertex + IN[1].vertex + IN[2].vertex) / 3.0;
 
-				if (!WithinEffectRegion(facePosition)) {
+				if (!WithinEffectRegion(facePosition.y)) {
 					for (int i = 0; i < 3; i++) {
 						o.uv = IN[i].uv;
 						o.vertex = UnityObjectToClipPos(IN[i].vertex);
@@ -96,7 +96,7 @@
 				float3 edgeA = IN[1].vertex - IN[0].vertex;
 				float3 edgeB = IN[2].vertex - IN[0].vertex;
 
-				float effectValue = EffectRegionValue(facePosition);
+				float effectValue = EffectRegionValue(facePosition.y);
 				float extrudeDistanceMod = _ExtrudeDistance * sin(effectValue * 3.14159265);
 
 				float4 extrudeVector = float4(normalize(cross(edgeA, edgeB)) * extrudeDistanceMod, 0);
