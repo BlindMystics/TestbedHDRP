@@ -28,6 +28,9 @@ public class AnimationTester : MonoBehaviour {
     }
 
     void Update() {
+        if (animationRenderer == null) {
+            return;
+        }
         animationRenderer.GetPropertyBlock(materialPropertyBlock);
 
         countdown -= Time.deltaTime;
