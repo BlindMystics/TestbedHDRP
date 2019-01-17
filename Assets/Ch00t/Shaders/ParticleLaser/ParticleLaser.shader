@@ -2,13 +2,15 @@
 {
 	Properties
 	{
-		_Color("Color", Color) = (1.0, 1.0, 1.0, 1.0)
+		_InnerColor("Inner Color", Color) = (1.0, 0.0, 0.0, 1.0)
+		_OuterColor("Outer Color", Color) = (1.0, 1.0, 0.0, 1.0)
 		_Width("Width", Float) = 0.1
 
 		_PulseWidth("Pulse Width", Float) = 0.1
 
 		[PerRenderData] _TotalBeamLength("Total Beam Length", Float) = 1.0
 		[PerRenderData] _AnimationTime("Animation Time", Float) = 0.0
+		[PerRenderData] _LaserEnd("Laser End", Float) = 0.0
     }
     SubShader
     {
@@ -29,7 +31,6 @@
 			#pragma geometry ParticleLaserGeometry
             #pragma fragment ParticleLaserFragment
 
-            #include "UnityCG.cginc"
 			#include "ParticleLaserVertex.hlsl"
 			#include "ParticleLaserGeometry.hlsl"
 			#include "ParticleLaserFragment.hlsl"

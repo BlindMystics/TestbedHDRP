@@ -1,22 +1,29 @@
+#include "Assets/CustomShader/Common/Shader/Random.hlsl"
+
+
 struct g2f
 {
 	float4 vertex : SV_POSITION;
+	float4 props : TEX_COORD0;
 };
 
 float _Width;
 float _TotalBeamLength;
 float _PulseWidth;
 float _AnimationTime;
+float _LaserEnd;
 
 [maxvertexcount(36)]
 void ParticleLaserGeometry(point v2g IN[1], uint pid : SV_PrimitiveID, inout TriangleStream<g2f> tristream) {
 	g2f o;
 
+	o.props = float4(0.0, 0.0, 0.0, 0.0);
+
 	float4 position = IN[0].vertex;
 
 	float normalizedBeamPosition = position.z / _TotalBeamLength;
 
-	if (normalizedBeamPosition > _AnimationTime) {
+	if (normalizedBeamPosition > _AnimationTime || normalizedBeamPosition < _LaserEnd) {
 		return;
 	}
 
@@ -26,9 +33,11 @@ void ParticleLaserGeometry(point v2g IN[1], uint pid : SV_PrimitiveID, inout Tri
 		return;
 	}
 
-	float exitRotation = pid;
+	float exitRotation = Hash(pid);
 
 	float effectValue = 1 - cos(timeSinceSpawn * 1.57079);
+
+	o.props.x = effectValue;
 
 	float4 positionUpdate = float4(sin(exitRotation), cos(exitRotation), 0, 0)
 		* _PulseWidth * effectValue;
