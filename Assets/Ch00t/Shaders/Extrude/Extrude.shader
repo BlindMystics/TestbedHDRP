@@ -3,9 +3,11 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+		_Color("Color", color) = (1.0, 1.0, 1.0, 1.0)
 		_ExtrudeDistance("Extrude Distance", Float) = 1.0
-		[PerRenderData]_ExtrudeRegionBottom("Extrude Region Bottom", Float) = 0.0
-		[PerRenderData]_ExtrudeRegionTop("Extrude Region Top", Float) = 0.0
+
+		[PerRenderData]_EffectRegionTop("Effect Region Top", Float) = 1.0
+		[PerRenderData]_EffectRegionBottom("Effect Region Bottom", Float) = 0.0
     }
 
 	HLSLINCLUDE
@@ -29,6 +31,7 @@
 			HLSLPROGRAM
 
 			#include "UnityCG.cginc"
+			#include "../Common/EffectRegion.hlsl"
 
 			#pragma vertex ExtrudeVertex
 			#pragma geometry ExtrudeGeometry
@@ -59,15 +62,7 @@
 			float _SideLength;
 			float _ExtrudeDistance;
 
-			float _ExtrudeRegionBottom;
-			float _ExtrudeRegionTop;
-
-
-			//TODO: The goal of this shader is to extrude all faces along their normal into triangular prisms
-			//The interior sides of the pyramids should be interestingly coloured, the surface should be the texture colour
-
-			//Extension: define a vertical region over which the effect takes place. The length of the extrusion should be a sin function over that area.
-			//This vertical region should then be animated along the height of the mesh - using a C# program.
+			float4 _Color;
 
 			v2g ExtrudeVertex(appdata v)
 			{
@@ -84,7 +79,7 @@
 
 				float3 facePosition = (IN[0].vertex + IN[1].vertex + IN[2].vertex) / 3.0;
 
-				if (facePosition.y < _ExtrudeRegionBottom || facePosition.y > _ExtrudeRegionTop) {
+				if (!WithinEffectRegion(facePosition.y)) {
 					for (int i = 0; i < 3; i++) {
 						o.uv = IN[i].uv;
 						o.vertex = UnityObjectToClipPos(IN[i].vertex);
@@ -101,9 +96,8 @@
 				float3 edgeA = IN[1].vertex - IN[0].vertex;
 				float3 edgeB = IN[2].vertex - IN[0].vertex;
 
-				float extrudeRegionLength = _ExtrudeRegionTop - _ExtrudeRegionBottom;
-				float extrudePositionNormalized = (facePosition.y - _ExtrudeRegionBottom) / extrudeRegionLength;
-				float extrudeDistanceMod = _ExtrudeDistance * sin(extrudePositionNormalized * 3.14159265);
+				float effectValue = EffectRegionValue(facePosition.y);
+				float extrudeDistanceMod = _ExtrudeDistance * sin(effectValue * 3.14159265);
 
 				float4 extrudeVector = float4(normalize(cross(edgeA, edgeB)) * extrudeDistanceMod, 0);
 
@@ -156,7 +150,7 @@
 					return float4(0, 0, 0, 1);
 				}
 
-				return tex2D(_MainTex, i.uv);
+				return tex2D(_MainTex, i.uv) * _Color;
 			}
 
 			ENDHLSL

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExtrudeExample : MonoBehaviour {
+public class EffectRegionSweep : MonoBehaviour {
     public float effectTop = 1f;
     public float effectBot = 0f;
 
@@ -24,12 +24,15 @@ public class ExtrudeExample : MonoBehaviour {
 
     private State currentState;
 
-    private int _ExtrudeRegionBottomId;
-    private int _ExtrudeRegionTop;
+    private int _EffectRegionBottomId;
+    private int _EffectRegionTop;
 
     private void Start() {
         renderer = GetComponent<Renderer>();
         propBlock = new MaterialPropertyBlock();
+
+        _EffectRegionBottomId = Shader.PropertyToID("_EffectRegionBottom");
+        _EffectRegionTop = Shader.PropertyToID("_EffectRegionTop");
 
         currentState = State.TOP_UP;
     }
@@ -67,8 +70,8 @@ public class ExtrudeExample : MonoBehaviour {
     private void LateUpdate() {
         renderer.GetPropertyBlock(propBlock);
 
-        propBlock.SetFloat("_ExtrudeRegionBottom", botPosition);
-        propBlock.SetFloat("_ExtrudeRegionTop", topPosition);
+        propBlock.SetFloat(_EffectRegionBottomId, botPosition);
+        propBlock.SetFloat(_EffectRegionTop, topPosition);
 
         renderer.SetPropertyBlock(propBlock);
     }
