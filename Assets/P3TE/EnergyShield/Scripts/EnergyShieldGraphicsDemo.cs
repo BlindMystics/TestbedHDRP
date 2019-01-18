@@ -26,7 +26,7 @@ public class EnergyShieldGraphicsDemo : MonoBehaviour {
         RaycastHit raycastHit;
         if (Physics.Raycast(ray, out raycastHit)) {
             if (raycastHit.collider != null) {
-                EnergyShieldGraphicsHandler energyShieldGraphicsHandler = raycastHit.collider.GetComponent<EnergyShieldGraphicsHandler>();
+                EnergyShieldGraphicsHandler energyShieldGraphicsHandler = raycastHit.collider.GetComponentInParent<EnergyShieldGraphicsHandler>();
                 if (energyShieldGraphicsHandler == energyShieldToDemo) {
                     energyShieldToDemo.SetLaserHolePosition(raycastHit.point);
                     if (Input.GetMouseButtonDown(0)) {

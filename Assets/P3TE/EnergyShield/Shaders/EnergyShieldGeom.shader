@@ -3,7 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_ShieldColour("Shield Colour", Color) = (1,1,1,1)
+		[PerRenderData]_ShieldColour("Shield Colour", Color) = (1,1,1,1)
 		_ShieldBreakColour("Shield Colour", Color) = (1,1,1,1)
 		_ExtrudeDistance("Extrude Distance", Float) = 1.0
 		[PerRenderData]_IntroRegionTop("Extrude Region Top", Float) = -1.0

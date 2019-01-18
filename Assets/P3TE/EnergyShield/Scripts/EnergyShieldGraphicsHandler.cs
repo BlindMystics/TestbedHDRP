@@ -14,6 +14,12 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
 
     [Space]
 
+    public Color shieldColour = new Color(0f, 1f, 1f);
+    [Range(0f, 1f)]
+    public float shieldAlpha = 0.15f;
+
+    [Space]
+
     public Vector3 rotationSpeed;
 
     [Space]
@@ -86,7 +92,7 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
 
         public void UpdateData(EnergyShieldGraphicsHandler parent) {
             Vector3 centerOfEnergyShield = parent.energyShieldTransform.position;
-            Vector3 sizeOfEnergyShield = parent.energyShieldTransform.localScale;
+            Vector3 sizeOfEnergyShield = parent.energyShieldTransform.lossyScale;
             this.startPosition = (sizeOfEnergyShield.y + parent.introAnimEffectRange);
             this.endPosition = -(sizeOfEnergyShield.y + parent.introAnimEffectRange);
             this.animationDuration = parent.introAnimationDuration;
@@ -149,7 +155,9 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
     public bool LaserHoleActive {
         get {
             //NOTE - This is only really valid in the LateUpdate.
-            return (!shieldFailing) && (frameHoleUpdated == Time.frameCount) && (introAnimationData.PercentageComplete >= 1.0f);
+            return (!shieldFailing) && (frameHoleUpdated == Time.frameCount) 
+                //&& (introAnimationData.PercentageComplete >= 1.0f)
+                && (positionOfLaserHole.y > (energyShieldTransform.position.y + introAnimationData.CurrentPosition));
         }
     }
 
@@ -230,7 +238,7 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
             Vector3 transformCenter = energyShieldTransform.position;
             Vector3 toGivenHolePos = holePosition - transformCenter;
 
-            float radiusOfShield = energyShieldTransform.localScale.x;
+            float radiusOfShield = energyShieldTransform.lossyScale.x;
             float extraAmountInward = radiusOfShield;
             if (radiusOfLaserHole < 0) {
                 radiusOfLaserHole = 0f;
@@ -245,23 +253,117 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
         }
     }
 
+    #region shaderPropertyIds
+
+    private static int _ShieldColourId = -1;
+
+    public static int ShieldColourId {
+        get {
+            if (_ShieldColourId == -1) {
+                _ShieldColourId = Shader.PropertyToID("_ShieldColour");
+            }
+            return _ShieldColourId;
+        }
+    }
+
+    private static int _FailurePointId = -1;
+
+    public static int FailurePointId {
+        get {
+            if (_FailurePointId == -1) {
+                _FailurePointId = Shader.PropertyToID("_FailurePoint");
+            }
+            return _FailurePointId;
+        }
+    }
+
+    private static int _FailureRadiusId = -1;
+
+    public static int FailureRadiusId {
+        get {
+            if (_FailureRadiusId == -1) {
+                _FailureRadiusId = Shader.PropertyToID("_FailureRadius");
+            }
+            return _FailureRadiusId;
+        }
+    }
+
+    private static int _FailureBrightDistId = -1;
+
+    public static int FailureBrightDistId {
+        get {
+            if (_FailureBrightDistId == -1) {
+                _FailureBrightDistId = Shader.PropertyToID("_FailureBrightDist");
+            }
+            return _FailureBrightDistId;
+        }
+    }
+
+    private static int _IntroRegionTopId = -1;
+
+    public static int IntroRegionTopId {
+        get {
+            if (_IntroRegionTopId == -1) {
+                _IntroRegionTopId = Shader.PropertyToID("_IntroRegionTop");
+            }
+            return _IntroRegionTopId;
+        }
+    }
+
+    private static int _IntroRegionWidthId = -1;
+
+    public static int IntroRegionWidthId {
+        get {
+            if (_IntroRegionWidthId == -1) {
+                _IntroRegionWidthId = Shader.PropertyToID("_IntroRegionWidth");
+            }
+            return _IntroRegionWidthId;
+        }
+    }
+
+    private static int _LaserHolePosId = -1;
+
+    public static int LaserHolePosId {
+        get {
+            if (_LaserHolePosId == -1) {
+                _LaserHolePosId = Shader.PropertyToID("_LaserHolePos");
+            }
+            return _LaserHolePosId;
+        }
+    }
+
+    private static int _LaserHoleRadiusId = -1;
+
+    public static int LaserHoleRadiusId {
+        get {
+            if (_LaserHoleRadiusId == -1) {
+                _LaserHoleRadiusId = Shader.PropertyToID("_LaserHoleRadius");
+            }
+            return _LaserHoleRadiusId;
+        }
+    }
+
+    #endregion
+
     private void LateUpdate() {
         energyShieldRenderer.GetPropertyBlock(propBlock);
 
+
+        //The colour of the shield.
+        Color shaderShieldColour = new Color(shieldColour.r, shieldColour.g, shieldColour.b, shieldAlpha);
+        propBlock.SetColor(ShieldColourId, shaderShieldColour);
+        shieldHoleVisualEffect.SetVector4("Shield Base Colour", shaderShieldColour);
+
         //Outro sequence:
-        Vector3 localFailurePosition = failurePoint.position - energyShieldTransform.position;
-        propBlock.SetVector("_FailurePoint", localFailurePosition);
-        propBlock.SetFloat("_FailureRadius", failureRadius);
-        propBlock.SetFloat("_FailureBrightDist", failureBrightDist);
+        //As these position checks are done in the geometry shader, the values must be done in local coordinates.
+        Vector3 localFailurePosition = failurePoint.position - energyShieldTransform.position; 
+        propBlock.SetVector(FailurePointId, localFailurePosition);
+        propBlock.SetFloat(FailureRadiusId, failureRadius);
+        propBlock.SetFloat(FailureBrightDistId, failureBrightDist);
 
-        //Intro sequence:
-        //Vector3 localExtrudeRegionTopPosition = extrudeRegionTop.position - energyShieldTransform.position;
-        //float extrudeValueTop = localExtrudeRegionTopPosition.y;
-        //float extrudeValueBottom = extrudeValueTop - effectRange;
-
-        
-        propBlock.SetFloat("_IntroRegionTop", introAnimationData.CurrentPosition);
-        propBlock.SetFloat("_IntroRegionWidth", introAnimEffectRange);
+        //Intro Sequence
+        propBlock.SetFloat(IntroRegionTopId, introAnimationData.CurrentPosition);
+        propBlock.SetFloat(IntroRegionWidthId, introAnimEffectRange);
 
         //Laser Hole
         //Vector3 shaderLaserHolePos = positionOfLaserHole - energyShieldTransform.position;
@@ -272,12 +374,12 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
         if (LaserHoleActive) {
             shieldHoleVisualEffect.Play();
             Vector3 shaderLaserHolePos = positionOfLaserHole;
-            propBlock.SetVector("_LaserHolePos", shaderLaserHolePos);
-            propBlock.SetFloat("_LaserHoleRadius", radiusOfLaserHole);
+            propBlock.SetVector(LaserHolePosId, shaderLaserHolePos);
+            propBlock.SetFloat(LaserHoleRadiusId, radiusOfLaserHole);
         } else {
             shieldHoleVisualEffect.Stop();
-            propBlock.SetVector("_LaserHolePos", Vector3.zero);
-            propBlock.SetFloat("_LaserHoleRadius", -1000.0f);
+            propBlock.SetVector(LaserHolePosId, Vector3.zero);
+            propBlock.SetFloat(LaserHoleRadiusId, -1000.0f);
         }
         
 

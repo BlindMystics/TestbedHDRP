@@ -167,7 +167,10 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
+    - _HoleRingSize: 0.2
     - _InitialBend: 1
+    - _IntroRegionTop: -1
+    - _IntroRegionWidth: 0.4
     - _InvTilingScale: 1
     - _Ior: 1
     - _IridescenceMask: 1

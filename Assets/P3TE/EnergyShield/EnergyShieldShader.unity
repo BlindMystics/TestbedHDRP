@@ -615,6 +615,7 @@ MonoBehaviour:
   punctualIntensity: 600
   areaIntensity: 200
   enableSpotReflector: 0
+  luxAtDistance: 1
   m_InnerSpotPercent: 0
   lightDimmer: 1
   m_VolumetricDimmer: 1
@@ -644,6 +645,7 @@ MonoBehaviour:
   shadowSoftness: 0.5
   blockerSampleCount: 24
   filterSampleCount: 16
+  minFilterSize: 0.00001
 --- !u!108 &825072846
 Light:
   m_ObjectHideFlags: 0
@@ -794,6 +796,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   stopNaNPropagation: 1
+  finalBlitToCameraTarget: 1
   antialiasingMode: 2
   temporalAntialiasing:
     jitterSpread: 0.75
@@ -850,6 +853,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   - assemblyQualifiedName: Kino.PostProcessing.Sharpen, Kino.Postprocessing, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: Invert, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1228617576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -907,6 +912,8 @@ MonoBehaviour:
     runLightListAsync: 1
     runSSRAsync: 1
     runSSAOAsync: 1
+    runContactShadowsAsync: 1
+    runVolumeVoxelizationAsync: 1
     lightLoopSettings:
       overrides: 0
       enableTileAndCluster: 1
@@ -1040,22 +1047,47 @@ PrefabInstance:
     - target: {fileID: 6604504891160598201, guid: cdb30abc9a87a4743a3a795f693f7fe8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.4527374
+      value: 0.10480694
       objectReference: {fileID: 0}
     - target: {fileID: 6604504891160598201, guid: cdb30abc9a87a4743a3a795f693f7fe8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.43141407
+      value: 0.08136651
       objectReference: {fileID: 0}
     - target: {fileID: 6604504891160598201, guid: cdb30abc9a87a4743a3a795f693f7fe8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.47112113
+      value: 0.06483005
       objectReference: {fileID: 0}
     - target: {fileID: 6604504891160598201, guid: cdb30abc9a87a4743a3a795f693f7fe8,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.62205756
+      value: 0.98903596
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604504889984639371, guid: cdb30abc9a87a4743a3a795f693f7fe8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.038354795
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604504889984639371, guid: cdb30abc9a87a4743a3a795f693f7fe8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7083174
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604504889984639371, guid: cdb30abc9a87a4743a3a795f693f7fe8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.038601328
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604504889984639371, guid: cdb30abc9a87a4743a3a795f693f7fe8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7037936
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604504889984639371, guid: cdb30abc9a87a4743a3a795f693f7fe8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.9482702
       objectReference: {fileID: 0}
     - target: {fileID: 6604504889984639369, guid: cdb30abc9a87a4743a3a795f693f7fe8,
         type: 3}
