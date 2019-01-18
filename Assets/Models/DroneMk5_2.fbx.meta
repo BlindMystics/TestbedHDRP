@@ -1,0 +1,139 @@
+fileFormatVersion: 2
+guid: 00b3e227668c751438dbe2f633d765f2
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Bone
+    100002: BottomPanel
+    100004: BottomPanel_end
+    100006: Drone
+    100008: DroneBody
+    100010: //RootNode
+    100012: DroneScreen0
+    100014: DroneScreen0Rim
+    100016: DroneScreen1
+    100018: DroneScreen1Rim
+    100020: DroneScreenSupport
+    100022: DroneScreenSupport.001
+    100024: TopPanel
+    100026: TopPanel_end
+    400000: Bone
+    400002: BottomPanel
+    400004: BottomPanel_end
+    400006: Drone
+    400008: DroneBody
+    400010: //RootNode
+    400012: DroneScreen0
+    400014: DroneScreen0Rim
+    400016: DroneScreen1
+    400018: DroneScreen1Rim
+    400020: DroneScreenSupport
+    400022: DroneScreenSupport.001
+    400024: TopPanel
+    400026: TopPanel_end
+    2100000: DroneScreenRim0
+    2100002: DroneScreen0
+    2100004: DroneBody
+    2100006: DronePanelArm
+    4300000: DroneScreen1Rim
+    4300002: DroneScreen1
+    4300004: DroneScreen0
+    4300006: DroneBody
+    4300008: DroneScreenSupport
+    4300010: DroneScreenSupport.001
+    4300012: DroneScreen0Rim
+    9500000: //RootNode
+    13700000: DroneBody
+    13700002: DroneScreen0
+    13700004: DroneScreen0Rim
+    13700006: DroneScreen1
+    13700008: DroneScreen1Rim
+    13700010: DroneScreenSupport
+    13700012: DroneScreenSupport.001
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
