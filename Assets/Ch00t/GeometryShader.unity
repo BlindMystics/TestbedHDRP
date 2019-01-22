@@ -1349,8 +1349,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10efe387575d80c4394a7fbf8c92e240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserMesh: {fileID: 684243891}
-  laserEnd: {fileID: 253065372}
+  lineMesh: {fileID: 684243891}
+  lineEnd: {fileID: 253065372}
   pointsPerUnit: 10
 --- !u!4 &1437898217
 Transform:
