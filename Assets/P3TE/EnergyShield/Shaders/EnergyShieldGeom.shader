@@ -18,6 +18,10 @@
 		[PerRenderData]_LaserHoleRadius("Laser Hole Radius", Float) = 0.3
 		_HoleRingSize("Hole Ring Size", Float) = 0.2
 
+		[PerRenderData]_AddBrightnessPlane("Additional Brightness Plane", Vector) = (0,1,0,0)
+		_AddBrightnessMax("Bright Plane Max Alpha", Float) = 1.0
+		_AddBrightnessDist("Bright Plane Additive Distance", Float) = 0.2
+
 		// Blending state
 		//Although I can't really definitvely say, I'm pretty sure sureface type of 1 is transparent.
 		_SurfaceType("__surfacetype", Float) = 1.0 
@@ -123,7 +127,9 @@
 			float _LaserHoleRadius;
 			float _HoleRingSize;
 
-
+			float4 _AddBrightnessPlane;
+			float _AddBrightnessMax;
+			float _AddBrightnessDist;
 
 			v2g ExtrudeVertex(appdata v)
 			{
@@ -278,6 +284,22 @@
 				fixed4 mainTex = tex2D(_MainTex, i.uv);
 				fixed4 outputColour = _ShieldColour;
 				outputColour.a *= mainTex.r;
+
+				//Additional Brightness Plane:
+				float numerator = _AddBrightnessPlane.w - (
+						(_AddBrightnessPlane.x * i.worldSpacePos.x) +
+						(_AddBrightnessPlane.y * i.worldSpacePos.y) +
+						(_AddBrightnessPlane.z * i.worldSpacePos.z)
+					);
+				float denominator = (_AddBrightnessPlane.x * _AddBrightnessPlane.x) +
+					(_AddBrightnessPlane.y * _AddBrightnessPlane.y) +
+					(_AddBrightnessPlane.z * _AddBrightnessPlane.z);
+				float distToPlane = numerator / denominator;
+				if (distToPlane < _AddBrightnessDist && distToPlane > 0) {
+					float brightnessLerp = 1.0 - (distToPlane / _AddBrightnessDist);
+					outputColour.a = lerp(outputColour.a, outputColour.a * _AddBrightnessMax, brightnessLerp);
+				}
+
 
 				outputColour = lerp(outputColour, brokenShieldColour, i.props.w);
 				
