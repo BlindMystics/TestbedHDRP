@@ -41,6 +41,12 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
     public float radiusOfLaserHole;
     public VisualEffect shieldHoleVisualEffect;
 
+    [Space]
+
+    public Transform additionalBrightnessPlane;
+    public float planeSpeed = 1.0f;
+    public float planeTeleportLeeway = 1.0f;
+
     #region debugPublicVariables
 
     [Space]
@@ -198,6 +204,15 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
 #endif
 
         energyShieldTransform.Rotate(rotationSpeed * Time.deltaTime);
+
+        //Shield bright spot
+        additionalBrightnessPlane.position += Time.deltaTime * planeSpeed * additionalBrightnessPlane.up;
+        Vector3 toCenter = energyShieldTransform.position - additionalBrightnessPlane.position;
+        float distToCenter = toCenter.magnitude;
+        if (distToCenter > energyShieldTransform.lossyScale.y + planeTeleportLeeway) {
+            additionalBrightnessPlane.position = energyShieldTransform.position - 
+                (energyShieldTransform.lossyScale.y + planeTeleportLeeway) * additionalBrightnessPlane.up;
+        }
 
     }
 
@@ -381,7 +396,16 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
             propBlock.SetVector(LaserHolePosId, Vector3.zero);
             propBlock.SetFloat(LaserHoleRadiusId, -1000.0f);
         }
-        
+
+
+        //Additional Brightness Plane:
+
+        Vector3 planeNormal = additionalBrightnessPlane.up;
+        Vector3 planeCenter = additionalBrightnessPlane.position;
+        float w = (planeNormal.x * planeCenter.x) + (planeNormal.y * planeCenter.y) + (planeNormal.z * planeCenter.z);
+        Vector4 planeParameters = new Vector4(planeNormal.x, planeNormal.y, planeNormal.z, w);
+        propBlock.SetVector("_AddBrightnessPlane", planeParameters);
+
 
         energyShieldRenderer.SetPropertyBlock(propBlock);
     }
