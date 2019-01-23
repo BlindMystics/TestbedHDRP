@@ -117,7 +117,7 @@ Material:
     - _Anisotropy: 0
     - _BlendMode: 0
     - _CoatMask: 0
-    - _CubeWidth: 0.05
+    - _CubeWidth: 0.08
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
@@ -172,7 +172,7 @@ Material:
     - _IridescenceThickness: 1
     - _LaserEnd: 0
     - _LineEnd: 0
-    - _LineWidth: 0.08
+    - _LineWidth: 0.02
     - _LinkDetailsWithBase: 1
     - _MaterialID: 1
     - _Metallic: 0
@@ -232,7 +232,7 @@ Material:
     - _EndColor: {r: 1, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _LineColor: {r: 0, g: 1, b: 0, a: 1}
+    - _LineColor: {r: 0.3241812, g: 0.41638115, b: 0.4433962, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _StartColor: {r: 0, g: 0, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}

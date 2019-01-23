@@ -18,15 +18,12 @@ float _LineEnd;
 void UpgradePathGeometry(line v2g IN[2], uint pid : SV_PrimitiveID, inout TriangleStream<g2f> tristream) {
 	g2f o;
 
-	o.props = float4(0.0, 1.0, 0.0, (pid % 7) / 6.0);
+	o.props = float4(0.0, 1.0, 0.0, 0.0);
 
 	float4 position = IN[0].vertex;
 
 	//Generate the quad for the line.
 	float4 lineEnd = IN[1].vertex;
-
-	//TODO: Some issue with coordinate space here... Line only works on the origin.
-	//The line behaves as if the camera is relative to the origin, not the line.
 
 	float3 forward = normalize(lineEnd - position);
 	float3 toCamera = IN[0].cameraDirection;
