@@ -12,8 +12,11 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        //Tags { "RenderType"="Opaque" }
+		Tags{ "RenderPipeline" = "HDRenderPipeline" "RenderType" = "Transparent" "Queue" = "Transparent" }
         LOD 100
+
+		Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -88,6 +91,7 @@
 				//angleBetween += texCol.x * 2;
 				if (angleBetween > cutoff) {
 					col = _OuterColour;
+					//discard;
 				}
 				else {
 					col = _InnerColour;
