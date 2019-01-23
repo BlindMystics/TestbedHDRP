@@ -16,11 +16,14 @@ float _LineEnd;
 
 //TODO: Output a line between each pair of points which will be a square rotated on axis to face the view
 
+//ISSUES: Currently the last point in the line is returning to the first - I don't want this.
+//This is due to the two points I get in the list either looping back to the first or I am getting a null point
+
 [maxvertexcount(42)]
 void UpgradePathGeometry(line v2g IN[2], uint pid : SV_PrimitiveID, inout TriangleStream<g2f> tristream) {
 	g2f o;
 
-	o.props = float4(1.0, 0.0, 0.0, 0.0);
+	o.props = float4(0.0, 1.0, 0.0, 0.0);
 
 	float4 position = IN[0].vertex;
 	float4 lineEnd = IN[1].vertex;

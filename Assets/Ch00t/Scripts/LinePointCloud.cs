@@ -9,10 +9,6 @@ public class LinePointCloud : MonoBehaviour {
 
     [Space]
 
-    public MeshTopology topologyType = MeshTopology.Points;
-
-    [Space]
-
     public int pointsPerUnit = 10;
 
     private Mesh mesh;
@@ -62,11 +58,11 @@ public class LinePointCloud : MonoBehaviour {
 
         //Ensure we use SetIndices here as it will only render if you set the triangles array otherwise.
         if (previousNumberOfVertices > numberOfVerticesInt) {
-            mesh.SetIndices(indices, topologyType, 0);
+            mesh.SetIndices(indices, MeshTopology.Points, 0);
             mesh.vertices = vertices;
         } else {
             mesh.vertices = vertices;
-            mesh.SetIndices(indices, topologyType, 0);
+            mesh.SetIndices(indices, MeshTopology.Points, 0);
         }
     }
 

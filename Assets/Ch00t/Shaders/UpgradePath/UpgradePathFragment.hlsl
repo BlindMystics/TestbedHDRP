@@ -5,7 +5,7 @@ float4 _LineColor;
 
 fixed4 UpgradePathFragment(g2f i) : SV_Target
 {
-	if (i.props.x == 1.0) {
+	if (i.props.y) {
 		return _LineColor;
 	}
 
