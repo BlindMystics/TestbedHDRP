@@ -7,6 +7,8 @@ public class LinePointCloud : MonoBehaviour {
     public GameObject lineMesh;
     public Transform lineEnd;
 
+    public MeshTopology meshTopology = MeshTopology.Points;
+
     [Space]
 
     public int pointsPerUnit = 10;
@@ -45,9 +47,9 @@ public class LinePointCloud : MonoBehaviour {
         int numberOfVerticesInt = Mathf.CeilToInt(numberOfVertices) + 1;
 
         Vector3[] vertices = new Vector3[numberOfVerticesInt];
-        vertices[0] = new Vector3();
+        vertices[0] = new Vector3(0f, 0f, 0f);
 
-        for (int i = 1; i < numberOfVertices; i++) {
+        for (int i = 1; i < numberOfVerticesInt; i++) {
             vertices[i] = new Vector3(0f, 0f, length * i / numberOfVertices);
         }
 
@@ -58,11 +60,11 @@ public class LinePointCloud : MonoBehaviour {
 
         //Ensure we use SetIndices here as it will only render if you set the triangles array otherwise.
         if (previousNumberOfVertices > numberOfVerticesInt) {
-            mesh.SetIndices(indices, MeshTopology.Points, 0);
+            mesh.SetIndices(indices, meshTopology, 0);
             mesh.vertices = vertices;
         } else {
             mesh.vertices = vertices;
-            mesh.SetIndices(indices, MeshTopology.Points, 0);
+            mesh.SetIndices(indices, meshTopology, 0);
         }
     }
 
@@ -72,6 +74,7 @@ public class LinePointCloud : MonoBehaviour {
             ((endPoint.x * 7919) % 65535) + 
             ((endPoint.y * 6229) % 65535) + 
             ((endPoint.z * 4297) % 65535)) +
-            pointsPerUnit;
+            pointsPerUnit + 
+            (int)meshTopology;
     }
 }
