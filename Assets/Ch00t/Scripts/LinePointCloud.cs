@@ -72,7 +72,6 @@ public class LinePointCloud : MonoBehaviour {
             ((endPoint.x * 7919) % 65535) + 
             ((endPoint.y * 6229) % 65535) + 
             ((endPoint.z * 4297) % 65535)) +
-            pointsPerUnit +
-            (int) topologyType;
+            pointsPerUnit;
     }
 }
