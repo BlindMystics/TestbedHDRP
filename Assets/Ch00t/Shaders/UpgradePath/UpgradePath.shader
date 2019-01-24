@@ -15,7 +15,7 @@
     }
     SubShader
     {
-        Tags { "RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDUnlitShader" "RenderType"="Transparent" }
+        Tags { "RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDUnlitShader" }
         LOD 100
 
 		//cull off
