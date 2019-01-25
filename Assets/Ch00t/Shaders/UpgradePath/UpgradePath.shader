@@ -15,8 +15,10 @@
     }
     SubShader
     {
-        Tags { "RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDUnlitShader" "RenderType"="Transparent" }
+        Tags { "RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDUnlitShader" }
         LOD 100
+
+		//cull off
 
 		//TODO: Begin by just rendering a cube at each vertex along the line.
 		//Then start playing around with particle effects.
@@ -31,6 +33,8 @@
             #pragma vertex UpgradePathVertex
 			#pragma geometry UpgradePathGeometry
             #pragma fragment UpgradePathFragment
+
+			#include "UnityCG.cginc"
 
 			#include "UpgradePathVertex.hlsl"
 			#include "UpgradePathGeometry.hlsl"

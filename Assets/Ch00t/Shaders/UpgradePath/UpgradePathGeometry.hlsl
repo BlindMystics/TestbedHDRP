@@ -14,11 +14,6 @@ float _TotalLineLength;
 float _AnimationTime;
 float _LineEnd;
 
-//TODO: Output a line between each pair of points which will be a square rotated on axis to face the view
-
-//ISSUES: Currently the last point in the line is returning to the first - I don't want this.
-//This is due to the two points I get in the list either looping back to the first or I am getting a null point
-
 [maxvertexcount(42)]
 void UpgradePathGeometry(line v2g IN[2], uint pid : SV_PrimitiveID, inout TriangleStream<g2f> tristream) {
 	g2f o;
@@ -26,15 +21,20 @@ void UpgradePathGeometry(line v2g IN[2], uint pid : SV_PrimitiveID, inout Triang
 	o.props = float4(0.0, 1.0, 0.0, 0.0);
 
 	float4 position = IN[0].vertex;
-	float4 lineEnd = IN[1].vertex;
 
 	//Generate the quad for the line.
+	float4 lineEnd = IN[1].vertex;
+
+	float3 forward = normalize(lineEnd - position);
+	float3 toCamera = IN[0].cameraDirection;
+	float3 up = normalize(cross(forward, toCamera));
 
 	float hlw = _LineWidth / 2.0;
-	float4 q0 = UnityObjectToClipPos(position + float4(0, hlw, 0, 0));
-	float4 q1 = UnityObjectToClipPos(position + float4(0, -hlw, 0, 0));
-	float4 q2 = UnityObjectToClipPos(lineEnd + float4(0, hlw, 0, 0));
-	float4 q3 = UnityObjectToClipPos(lineEnd + float4(0, -hlw, 0, 0));
+
+	float4 q0 = UnityObjectToClipPos(position + up * -hlw);
+	float4 q1 = UnityObjectToClipPos(position + up * hlw);
+	float4 q2 = UnityObjectToClipPos(lineEnd + up * -hlw);
+	float4 q3 = UnityObjectToClipPos(lineEnd + up * hlw);
 
 	o.vertex = q0;
 	tristream.Append(o);
@@ -102,4 +102,5 @@ void UpgradePathGeometry(line v2g IN[2], uint pid : SV_PrimitiveID, inout Triang
 			tristream.RestartStrip();
 		}
 	}
+	tristream.RestartStrip();
 }
