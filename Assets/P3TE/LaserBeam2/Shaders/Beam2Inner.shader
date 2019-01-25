@@ -42,6 +42,7 @@
                 float4 vertex : SV_POSITION;
 				float3 normal : NORMAL;
 				float3 viewDir : TEXCOORD1;
+				float camAngleXY : TEXCOORD2;
             };
 
             sampler2D _MainTex;
@@ -63,8 +64,16 @@
 				vertexUV.y += _TexUVYOffset;
                 o.uv = TRANSFORM_TEX(vertexUV, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
-				o.normal = UnityObjectToWorldNormal(v.normal);
-				o.viewDir = normalize(UnityWorldSpaceViewDir(mul(unity_ObjectToWorld, v.vertex)));
+				o.normal = v.normal; //In object space.
+				float3 objectSpaceCamPos = mul(unity_WorldToObject, float4(_WorldSpaceCameraPos, 1.0)).xyz;
+				o.viewDir = normalize(objectSpaceCamPos - v.vertex); //In object space.
+				
+				float2 viewDirXY = normalize(o.viewDir.xy);
+				float2 normalXY = normalize(o.normal.xy);
+				float dotProduct = dot(viewDirXY, normalXY);
+				float angleBetween = acos(dotProduct);
+				o.camAngleXY = angleBetween;
+
                 return o;
             }
 
@@ -75,13 +84,9 @@
                 // sample the texture
 
                 fixed4 texCol = tex2D(_MainTex, i.uv);
-				
-				//TODO - Move the angle between to the vertex shader.
-				float2 viewDirXY = normalize(i.viewDir.xy);
-				float2 normalXY = normalize(i.normal.xy);
-				float dotProduct = dot(viewDirXY, normalXY);
-				float angleBetween = acos(dotProduct);
-				//End TODO.
+
+				float angleBetween = i.camAngleXY;
+
 				float cutoff = _InnerOuterCutoff * 1.570796;
 				float multiplier = texCol.x - 0.5;
 				multiplier *= _InnerOuterTextureStrength;

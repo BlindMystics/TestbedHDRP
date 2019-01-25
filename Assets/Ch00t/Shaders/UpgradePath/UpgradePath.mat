@@ -117,7 +117,7 @@ Material:
     - _Anisotropy: 0
     - _BlendMode: 0
     - _CoatMask: 0
-    - _CubeWidth: 0.05
+    - _CubeWidth: 0
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5

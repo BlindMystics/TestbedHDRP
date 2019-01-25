@@ -99,8 +99,8 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
         public void UpdateData(EnergyShieldGraphicsHandler parent) {
             Vector3 centerOfEnergyShield = parent.energyShieldTransform.position;
             Vector3 sizeOfEnergyShield = parent.energyShieldTransform.lossyScale;
-            this.startPosition = (sizeOfEnergyShield.y + parent.introAnimEffectRange);
-            this.endPosition = -(sizeOfEnergyShield.y + parent.introAnimEffectRange);
+            this.startPosition = centerOfEnergyShield.y + (sizeOfEnergyShield.y + parent.introAnimEffectRange);
+            this.endPosition = centerOfEnergyShield.y - (sizeOfEnergyShield.y + parent.introAnimEffectRange);
             this.animationDuration = parent.introAnimationDuration;
             HandleUpdate();
         }
@@ -163,7 +163,7 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
             //NOTE - This is only really valid in the LateUpdate.
             return (!shieldFailing) && (frameHoleUpdated == Time.frameCount) 
                 //&& (introAnimationData.PercentageComplete >= 1.0f)
-                && (positionOfLaserHole.y > (energyShieldTransform.position.y + introAnimationData.CurrentPosition));
+                && (positionOfLaserHole.y > introAnimationData.CurrentPosition);
         }
     }
 
@@ -370,9 +370,9 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
         shieldHoleVisualEffect.SetVector4("Shield Base Colour", shaderShieldColour);
 
         //Outro sequence:
-        //As these position checks are done in the geometry shader, the values must be done in local coordinates.
-        Vector3 localFailurePosition = failurePoint.position - energyShieldTransform.position; 
-        propBlock.SetVector(FailurePointId, localFailurePosition);
+        Vector4 shaderFailurePosition = failurePoint.position;
+        shaderFailurePosition.w = 1.0f; //1 required in the fourth variable of the vector for correct 4x4 matrix operations
+        propBlock.SetVector(FailurePointId, shaderFailurePosition);
         propBlock.SetFloat(FailureRadiusId, failureRadius);
         propBlock.SetFloat(FailureBrightDistId, failureBrightDist);
 
@@ -388,12 +388,13 @@ public class EnergyShieldGraphicsHandler : MonoBehaviour {
 
         if (LaserHoleActive) {
             shieldHoleVisualEffect.Play();
-            Vector3 shaderLaserHolePos = positionOfLaserHole;
+            Vector4 shaderLaserHolePos = positionOfLaserHole;
+            shaderLaserHolePos.w = 1.0f; //1 required in the fourth variable of the vector for correct 4x4 matrix operations
             propBlock.SetVector(LaserHolePosId, shaderLaserHolePos);
             propBlock.SetFloat(LaserHoleRadiusId, radiusOfLaserHole);
         } else {
             shieldHoleVisualEffect.Stop();
-            propBlock.SetVector(LaserHolePosId, Vector3.zero);
+            propBlock.SetVector(LaserHolePosId, Vector4.zero);
             propBlock.SetFloat(LaserHoleRadiusId, -1000.0f);
         }
 

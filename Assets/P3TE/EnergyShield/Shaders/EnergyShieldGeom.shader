@@ -164,13 +164,12 @@
 
 				float3 facePosition = (IN[0].vertex + IN[1].vertex + IN[2].vertex) / 3.0;
 
-				float3 worldSpaceFacePosition = mul(unity_ObjectToWorld, facePosition).xyz;
+				float3 worldSpaceFacePosition = mul(unity_ObjectToWorld, float4(facePosition, 1.0)).xyz;
 
 				float visible = 1;
 				float extruded = 0;
 				float breakColourBlend = 0;
 
-				
 				if (_FailureRadius > 0) {
 					float3 toFailurePoint = _FailurePoint.xyz - worldSpaceFacePosition;
 					float distSquardToFailure = dot(toFailurePoint, toFailurePoint);
