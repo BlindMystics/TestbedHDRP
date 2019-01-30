@@ -234,6 +234,7 @@ Material:
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _ShotgunBeamColor_A: {r: 0.14901961, g: 0.7490196, b: 0.74509805, a: 1}
+    - _ShotgunBeamColour_A: {r: 67.0157, g: 246.61777, b: 255.99997, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
