@@ -3,7 +3,8 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_Color("Color", color) = (1.0, 1.0, 1.0, 1.0)
+		[HDR]_Color("Color", color) = (1.0, 1.0, 1.0, 1.0)
+		[HDR]_InnerColor("Inner Color", color) = (0.0, 0.0, 0.0, 1.0)
 		_ExtrudeDistance("Extrude Distance", Float) = 1.0
 
 		[PerRenderData]_EffectRegionTop("Effect Region Top", Float) = 1.0
@@ -63,6 +64,7 @@
 			float _ExtrudeDistance;
 
 			float4 _Color;
+			float4 _InnerColor;
 
 			v2g ExtrudeVertex(appdata v)
 			{
@@ -147,7 +149,7 @@
 			fixed4 ExtrudeFragment(g2f i) : SV_Target
 			{
 				if (i.props.x) {
-					return float4(0, 0, 0, 1);
+					return _InnerColor;
 				}
 
 				return tex2D(_MainTex, i.uv) * _Color;
